@@ -1,0 +1,48 @@
+{%extends 'main/base.html'%}
+
+{%block title%}My wishlists{% endblock %}
+{%block content%}
+<style>
+    .link {
+        color: darkturquoise;
+        margin-left: -40px;
+        font-size: 25px;
+    }
+    .Delete-link {
+        color: darkturquoise;
+        font-size: 25px;
+    }
+</style>
+
+{%for one in all%}
+{% if one.user == request.user %}
+<div>
+    <ul>
+        <a href="/{{one.id}}" class="link">{{one.name}}</a>
+            
+            <a href="/deleteobject/{{one.id}}", onclick="return confirm('Вы уверены?')", class="Delete-link" > | Удалить</a>
+    </ul>
+</div>
+{% endif %}
+{%endfor%}
+<h6>If you still don't have any wish lists or want to create more of them , you can do it <a href="/create">Here</a>!</h6>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js">
+swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    swal("Poof! Your imaginary file has been deleted!", {
+      icon: "success",
+    });
+  } else {
+    swal("Your imaginary file is safe!");
+  }
+});
+</script>
+{%endblock%}

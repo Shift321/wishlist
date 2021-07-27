@@ -1,4 +1,6 @@
 from typing import Text
+
+from django.http import request
 from main.models import ToDoList,Item
 from django.shortcuts import render,redirect
 from .forms import CreateNewList
@@ -35,7 +37,8 @@ def create(response):
             data = form.cleaned_data["name"]
             t = ToDoList(name=data)
             t.save()
-            response.user.ToDoList_set.add(t)
+            response.user.todolist.add(t)
+        
         return redirect("/%i" %t.id)
     else:
         form = CreateNewList()
@@ -43,4 +46,21 @@ def create(response):
 
 def show_all(response):
     all = ToDoList.objects.all()
-    return render(response,"main/all.html",{"all":all})
+    return render(response,"main/views.html",{"all":all})
+
+
+def deleteitem(response,id):
+    tds = Item.objects.get(id=id)
+    tds_id = tds.todolist.id
+    tds.delete()
+    return redirect(f"/{tds_id}")
+
+
+def deleteobject(response,id):
+    wish_list = ToDoList.objects.get(id=id)
+    wish_list.delete()
+    return redirect("/view")
+
+def my_wish_list(response):
+    all = ToDoList.objects.all()
+    return render(response,"main/mywishlists.html",{"all":all})

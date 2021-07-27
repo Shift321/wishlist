@@ -1,0 +1,27 @@
+{%extends 'main/base.html'%}
+
+{%block title%}Views{% endblock %}
+{%block content%}
+{%for one in all%}
+<style>
+    .link {
+        color: darkturquoise;
+        margin-left: -40px;
+        font-size: 25px;
+    }
+    .Delete-link {
+        color: darkturquoise;
+        font-size: 25px;
+    }
+</style>
+
+<div>
+    <ul>
+        <a href="/{{one.id}}" class="link">{{one.name}}</a>
+        {% if one.user == request.user %}
+        <a href="/deleteobject/{{one.id}}", onclick="return confirm('Вы уверены?')", class="Delete-link"> | Удалить</a>
+        {% endif %}
+    </ul>
+</div>
+{%endfor%}
+{%endblock%}

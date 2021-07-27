@@ -10,22 +10,28 @@ View List
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <div class="input-group-text">
-                {% if item.complete == True %} 
+                    {% if item.complete == True %} 
                     <input type="checkbox", value="clicked", name="c{{item.id}}" checked>
                     {% else %}
                     <input type="checkbox", value="clicked", name="c{{item.id}}">
-                {% endif %}
+                    {% endif %}
                 </div>
             </div>
             <input type="text", value="{{item.text}}" class="form-control">
+            {%if ls.user == request.user%}
+            <button type="submit", class="btn btn-success btn-sm", onclick="document.location='deleteitem/{{item.id}}'", onclick="return confirm('Вы уверены?')">Delete</button>
+            {% endif %}
         </div>
+
         {% endfor %}
+        {% if ls.user == request.user %}
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <button type="submit", name="newItem", value="newItem", class="btn btn-success">Add Item</button>
             </div>
             <input type="text", name="new">
         </div>
-        <button type="submit", name="save", value="save" class="btn btn-success ">Save</button>
+        {% endif %}
+        <button type="submit", name="save", value="save" class="btn btn-success btn-lg">Save</button>
     </form>
 {%endblock%}
